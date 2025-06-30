@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Cookies</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 20px auto; }
+        h1 { color: #0056b3; }
+        p { margin-bottom: 10px; }
+        .message { margin-top: 20px; padding: 10px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; border-radius: 4px; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .back-link { display: block; margin-top: 30px; color: #007bff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        a.button { display: inline-block; padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px; }
+        a.button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prueba de Cookies</h1>
+
+        <p class="message">{{ message }}</p>
+
+        {% if "Cookie de prueba establecida" in message %}
+            <p>Haz clic en el siguiente enlace para verificar si la cookie fue aceptada:</p>
+            <p><a href="{% url 'sessions_app:check_test_cookie' %}" class="button">Verificar Cookie de Prueba</a></p>
+        {% elif "La cookie de prueba funcionó" in message or "La cookie de prueba NO funcionó" in message %}
+            <p><a href="{% url 'sessions_app:delete_test_cookie' %}" class="button">Eliminar Cookie de Prueba</a> (Opcional, se elimina automáticamente al verificar)</p>
+            <p><a href="{% url 'sessions_app:test_cookies' %}" class="button">Reintentar Prueba de Cookies</a></p>
+        {% endif %}
+
+        <a href="{% url 'sessions_app:index' %}" class="back-link">&larr; Volver al inicio</a>
+    </div>
+</body>
+</html>

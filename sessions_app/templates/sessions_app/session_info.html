@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title|default:"Información de Sesión" }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 20px auto; }
+        h1, h2 { color: #0056b3; }
+        p { margin-bottom: 8px; }
+        strong { color: #0056b3; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 5px; background-color: #e9ecef; padding: 8px; border-radius: 4px; }
+        .back-link { display: block; margin-top: 30px; color: #007bff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .section-data { border: 1px solid #ddd; padding: 15px; margin-top: 20px; border-radius: 5px; background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title|default:"Información de Sesión" }}</h1>
+
+        <div class="section-data">
+            <h2>Detalles Generales de la Sesión</h2>
+            <p><strong>ID de Sesión:</strong> {{ session_id|default:"No hay ID de sesión (sesión nueva o no guardada)" }}</p>
+            <p><strong>Motor de Sesión Actual:</strong> <code>{{ session_engine }}</code></p>
+            <p><strong>Edad por Defecto de la Cookie de Sesión (<code>SESSION_COOKIE_AGE</code>):</strong> {{ session_cookie_age }} segundos</p>
+            <p><strong>Expira al cerrar el navegador (<code>get_expire_at_browser_close()</code>):</strong> {{ expire_at_browser_close }}</p>
+            <p><strong>Tiempo restante de expiración (<code>get_expiry_age()</code>):</strong> {% if expiry_age %}{{ expiry_age }} segundos{% else %}No establecido / usa el valor global{% endif %}</p>
+            <p><strong>Fecha de expiración (<code>get_expiry_date()</code>):</strong> {% if expiry_date %}{{ expiry_date }}{% else %}No establecido / usa el valor global{% endif %}</p>
+            <p><strong>Sesión modificada (<code>request.session.modified</code>):</strong> {{ modified_status }}</p>
+        </div>
+
+        <div class="section-data">
+            <h2>Datos Almacenados en la Sesión Actual:</h2>
+            {% if current_session_data %}
+                <ul>
+                    {% for key, value in current_session_data %}
+                        <li><strong>{{ key }}</strong>: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay datos almacenados en la sesión actual.</p>
+            {% endif %}
+        </div>
+
+        {% if session_data_from_db %}
+            <div class="section-data">
+                <h2>Datos de Sesión Cargados directamente desde el Backend (solo si aplica):</h2>
+                {% if session_data_from_db == "No se pudo cargar la sesión de la base de datos (quizás expiró o no existe aún)." or "Error al cargar" in session_data_from_db %}
+                    <p style="color: red;">{{ session_data_from_db }}</p>
+                {% else %}
+                    <p>Esto demuestra cómo podrías acceder a los datos de sesión fuera de la `request` (p. ej., desde un script de gestión).</p>
+                    <ul>
+                        {% for key, value in session_data_from_db.items %}
+                            <li><strong>{{ key }}</strong>: {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if out_of_view_session_key %}
+            <div class="section-data">
+                <h2>Sesión creada fuera de una vista (solo para demostración):</h2>
+                <p><strong>Clave de Sesión Creada:</strong> {{ out_of_view_session_key }}</p>
+                <p>Esta es una sesión completamente separada de la actual, creada directamente con <code>SessionStore().create()</code>.</p>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'sessions_app:index' %}" class="back-link">&larr; Volver al inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demostración de Sesiones en Django</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1 { color: #0056b3; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 20px auto; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        a { text-decoration: none; color: #007bff; }
+        a:hover { text-decoration: underline; }
+        .section-title { margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Demostración de Sesiones en Django</h1>
+        <p>Esta aplicación de ejemplo ilustra cómo usar el framework de sesiones de Django. Puedes probar diferentes backends configurando <code>SESSION_ENGINE</code> en <code>settings.py</code>.</p>
+
+        <h2 class="section-title">Operaciones Básicas de Sesión</h2>
+        <ul>
+            <li><a href="{% url 'sessions_app:set_session' %}">Establecer / Eliminar Datos en la Sesión</a>: Añade, actualiza o elimina pares clave-valor en la sesión.</li>
+            <li><a href="{% url 'sessions_app:get_session' %}">Obtener Datos de la Sesión</a>: Muestra algunos datos de sesión predefinidos y todos los elementos actuales.</li>
+            <li><a href="{% url 'sessions_app:flush_session' %}">Vaciar Sesión (Flush)</a>: Elimina todos los datos de la sesión actual y la cookie de sesión. Esto se usa comúnmente al cerrar sesión.</li>
+        </ul>
+
+        <h2 class="section-title">Manejo de Expiración de Sesión</h2>
+        <ul>
+            <li><a href="{% url 'sessions_app:set_expiry_seconds' %}">Expirar Sesión en 30 Segundos</a>: La sesión expirará después de 30 segundos de inactividad.</li>
+            <li><a href="{% url 'sessions_app:set_expiry_browser' %}">Expirar Sesión al Cerrar Navegador</a>: La sesión expirará tan pronto como el navegador se cierre.</li>
+            <li><a href="{% url 'sessions_app:set_expiry_none' %}">Restablecer Expiración Global</a>: La sesión volverá a la configuración global de <code>SESSION_COOKIE_AGE</code>.</li>
+        </ul>
+
+        <h2 class="section-title">Prueba de Cookies</h2>
+        <p>Estas funciones ayudan a verificar si el navegador del usuario acepta cookies.</p>
+        <ul>
+            <li><a href="{% url 'sessions_app:test_cookies' %}">Establecer Cookie de Prueba</a>: Coloca una pequeña cookie para verificar la compatibilidad del navegador.</li>
+            <li><a href="{% url 'sessions_app:check_test_cookie' %}">Verificar Cookie de Prueba</a>: Comprueba si la cookie de prueba fue aceptada.</li>
+            <li><a href="{% url 'sessions_app:delete_test_cookie' %}">Eliminar Cookie de Prueba</a>: Limpia la cookie de prueba.</li>
+        </ul>
+
+        <h2 class="section-title">Información Detallada de la Sesión</h2>
+        <ul>
+            <li><a href="{% url 'sessions_app:session_info' %}">Ver Información Detallada de la Sesión</a>: Muestra el ID de sesión, estado de expiración y otros detalles.</li>
+        </ul>
+    </div>
+</body>
+</html>
